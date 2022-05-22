@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Constraint(validatedBy = ValidAppointmentTimeConstraintValidator.class)
 public @interface ValidAppointmentTime {
-    String message() default "{inc.evil.medassist.appointment.ValidAppointmentTime}";
+    String message() default "{inc.evil.clinic.appointment.ValidAppointmentTime}";
 
     Class<?>[] groups() default {};
 

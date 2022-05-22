@@ -24,6 +24,7 @@ public class Patient extends AbstractEntity {
         this.phoneNumber = builder.phoneNumber;
         this.source = builder.source;
         this.birthDate = builder.birthDate;
+        this.id = builder.id;
     }
 
     public String getFirstName() {
@@ -66,16 +67,33 @@ public class Patient extends AbstractEntity {
         this.birthDate = birthDate;
     }
 
+    public Patient mergeWith(Patient otherPatient) {
+        return Patient.builder()
+                .id(id)
+                .firstName(otherPatient.getFirstName() != null ? otherPatient.getFirstName() : firstName)
+                .lastName(otherPatient.getLastName() != null ? otherPatient.getLastName() : lastName)
+                .birthDate(otherPatient.getBirthDate() != null ? otherPatient.getBirthDate() : birthDate)
+                .phoneNumber(otherPatient.getPhoneNumber() != null ? otherPatient.getPhoneNumber() : phoneNumber)
+                .source(otherPatient.getSource() != null ? otherPatient.getSource() : source)
+                .build();
+    }
+
     public static PatientBuilder builder() {
         return new PatientBuilder();
     }
 
     public static class PatientBuilder {
+        private String id;
         private String firstName;
         private String lastName;
         private String phoneNumber;
         private String source;
         private LocalDate birthDate;
+
+        public PatientBuilder id(String id) {
+            this.id = id;
+            return this;
+        }
 
         public PatientBuilder firstName(String firstName) {
             this.firstName = firstName;

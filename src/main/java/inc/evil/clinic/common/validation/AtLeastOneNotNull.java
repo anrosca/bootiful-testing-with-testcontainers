@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Constraint(validatedBy = AtLeastOneNotNullConstraintValidator.class)
 public @interface AtLeastOneNotNull {
-    String message() default "{inc.evil.medassist.AtLeastOneNotNull}";
+    String message() default "{inc.evil.clinic.AtLeastOneNotNull}";
 
     Class<?>[] groups() default {};
 

@@ -8,7 +8,7 @@ import javax.persistence.MappedSuperclass;
 import java.util.Objects;
 
 @MappedSuperclass
-public class AbstractEntity {
+public class AbstractEntity implements Identifiable<String> {
     @Id
     @GenericGenerator(name = "uuid-generator", strategy = "org.hibernate.id.UUIDGenerator")
     @GeneratedValue(generator = "uuid-generator")
