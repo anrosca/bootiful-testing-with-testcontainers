@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public class AppointmentJpaTest extends AbstractEqualityCheckTest<Appointment> {
@@ -23,8 +22,8 @@ public class AppointmentJpaTest extends AbstractEqualityCheckTest<Appointment> {
                 .endTime(LocalTime.of(15, 30))
                 .details("New patient")
                 .operation("Cleaning")
-                .doctor(entityManager.find(Doctor.class, "f23e4567-e89b-12d3-a456-426614174000"))
-                .patient(entityManager.find(Patient.class, "f44e4567-ef9c-12d3-a45b-52661417400a"))
+                .doctor(entityManager.find(Doctor.class, "22297b89-222a-4daa-222f-5995fd44da3e"))
+                .patient(entityManager.find(Patient.class, "123e4567-e89b-12d3-a456-426614174000"))
                 .build();
 
         assertEqualityConsistency(Appointment.class, appointment);

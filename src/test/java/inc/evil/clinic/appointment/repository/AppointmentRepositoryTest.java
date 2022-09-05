@@ -31,15 +31,15 @@ public class AppointmentRepositoryTest extends AbstractIntegrationTest {
     @Test
     @Sql("/test-data/appointment/appointment.sql")
     public void whenAppointmentStartsOneMinuteTooEarly_andOverlapsWithAnotherOne_shouldReturnConflictingAppointment() {
-        String doctorId = "f23e4567-e89b-12d3-a456-426614174000";
+        String doctorId = "a23e4567-a89b-12d3-a456-42661417400a";
         LocalDate appointmentDate = LocalDate.of(2021, 12, 12);
         LocalTime startTime = LocalTime.of(17, 59);
         LocalTime endTime = LocalTime.of(18, 30);
         Optional<Appointment> expectedConflictingAppointment = Optional.of(
                 Appointment.builder()
                         .id("aa3e4567-e89b-12d3-b457-5267141750aa")
-                        .doctor(entityManager.find(Doctor.class, "f23e4567-e89b-12d3-a456-426614174000"))
-                        .patient(entityManager.find(Patient.class, "f44e4567-ef9c-12d3-a45b-52661417400a"))
+                        .doctor(entityManager.find(Doctor.class, "a23e4567-a89b-12d3-a456-42661417400a"))
+                        .patient(entityManager.find(Patient.class, "b23e4567-b89b-12d3-a456-42661417400"))
                         .appointmentDate(LocalDate.of(2021, 12, 12))
                         .startTime(LocalTime.of(17, 0))
                         .endTime(LocalTime.of(18, 0))
@@ -57,15 +57,15 @@ public class AppointmentRepositoryTest extends AbstractIntegrationTest {
     @Test
     @Sql("/test-data/appointment/appointment.sql")
     public void whenAppointmentStartsAfterAnExistingOne_butTheyOverlap_shouldReturnConflictingAppointment() {
-        String doctorId = "f23e4567-e89b-12d3-a456-426614174000";
+        String doctorId = "a23e4567-a89b-12d3-a456-42661417400a";
         LocalDate appointmentDate = LocalDate.of(2021, 12, 12);
         LocalTime startTime = LocalTime.of(17, 5);
         LocalTime endTime = LocalTime.of(17, 30);
         Optional<Appointment> expectedConflictingAppointment = Optional.of(
                 Appointment.builder()
                         .id("aa3e4567-e89b-12d3-b457-5267141750aa")
-                        .doctor(entityManager.find(Doctor.class, "f23e4567-e89b-12d3-a456-426614174000"))
-                        .patient(entityManager.find(Patient.class, "f44e4567-ef9c-12d3-a45b-52661417400a"))
+                        .doctor(entityManager.find(Doctor.class, "a23e4567-a89b-12d3-a456-42661417400a"))
+                        .patient(entityManager.find(Patient.class, "b23e4567-b89b-12d3-a456-42661417400"))
                         .appointmentDate(LocalDate.of(2021, 12, 12))
                         .startTime(LocalTime.of(17, 0))
                         .endTime(LocalTime.of(18, 0))
@@ -83,15 +83,15 @@ public class AppointmentRepositoryTest extends AbstractIntegrationTest {
     @Test
     @Sql("/test-data/appointment/appointment.sql")
     public void whenAppointmentEndTimeOverlapsWithAnotherOne_shouldReturnConflictingAppointment() {
-        String doctorId = "f23e4567-e89b-12d3-a456-426614174000";
+        String doctorId = "a23e4567-a89b-12d3-a456-42661417400a";
         LocalDate appointmentDate = LocalDate.of(2021, 12, 12);
         LocalTime startTime = LocalTime.of(16, 30);
         LocalTime endTime = LocalTime.of(17, 30);
         Optional<Appointment> expectedConflictingAppointment = Optional.of(
                 Appointment.builder()
                         .id("aa3e4567-e89b-12d3-b457-5267141750aa")
-                        .doctor(entityManager.find(Doctor.class, "f23e4567-e89b-12d3-a456-426614174000"))
-                        .patient(entityManager.find(Patient.class, "f44e4567-ef9c-12d3-a45b-52661417400a"))
+                        .doctor(entityManager.find(Doctor.class, "a23e4567-a89b-12d3-a456-42661417400a"))
+                        .patient(entityManager.find(Patient.class, "b23e4567-b89b-12d3-a456-42661417400"))
                         .appointmentDate(LocalDate.of(2021, 12, 12))
                         .startTime(LocalTime.of(17, 0))
                         .endTime(LocalTime.of(18, 0))
@@ -109,15 +109,15 @@ public class AppointmentRepositoryTest extends AbstractIntegrationTest {
     @Test
     @Sql("/test-data/appointment/appointment.sql")
     public void whenSecondAppointmentIsAtTheSameTimeWithAnExistingOne_shouldReturnConflictingAppointment() {
-        String doctorId = "f23e4567-e89b-12d3-a456-426614174000";
+        String doctorId = "a23e4567-a89b-12d3-a456-42661417400a";
         LocalDate appointmentDate = LocalDate.of(2021, 12, 12);
         LocalTime startTime = LocalTime.of(17, 0);
         LocalTime endTime = LocalTime.of(18, 0);
         Optional<Appointment> expectedConflictingAppointment = Optional.of(
                 Appointment.builder()
                         .id("aa3e4567-e89b-12d3-b457-5267141750aa")
-                        .doctor(entityManager.find(Doctor.class, "f23e4567-e89b-12d3-a456-426614174000"))
-                        .patient(entityManager.find(Patient.class, "f44e4567-ef9c-12d3-a45b-52661417400a"))
+                        .doctor(entityManager.find(Doctor.class, "a23e4567-a89b-12d3-a456-42661417400a"))
+                        .patient(entityManager.find(Patient.class, "b23e4567-b89b-12d3-a456-42661417400"))
                         .appointmentDate(LocalDate.of(2021, 12, 12))
                         .startTime(LocalTime.of(17, 0))
                         .endTime(LocalTime.of(18, 0))
@@ -135,14 +135,14 @@ public class AppointmentRepositoryTest extends AbstractIntegrationTest {
     @Test
     @Sql("/test-data/appointment/appointment.sql")
     public void shouldBeAbleToFindAppointments_forOneDayTimeRange() {
-        String doctorId = "f23e4567-e89b-12d3-a456-426614174000";
+        String doctorId = "a23e4567-a89b-12d3-a456-42661417400a";
         LocalDate startDate = LocalDate.of(2021, 12, 12);
         LocalDate endDate = LocalDate.of(2021, 12, 12);
         List<Appointment> expectedAppointments = List.of(
                 Appointment.builder()
                         .id("aa3e4567-e89b-12d3-b457-5267141750aa")
-                        .doctor(entityManager.find(Doctor.class, "f23e4567-e89b-12d3-a456-426614174000"))
-                        .patient(entityManager.find(Patient.class, "f44e4567-ef9c-12d3-a45b-52661417400a"))
+                        .doctor(entityManager.find(Doctor.class, "a23e4567-a89b-12d3-a456-42661417400a"))
+                        .patient(entityManager.find(Patient.class, "b23e4567-b89b-12d3-a456-42661417400"))
                         .appointmentDate(LocalDate.of(2021, 12, 12))
                         .startTime(LocalTime.of(17, 0))
                         .endTime(LocalTime.of(18, 0))
@@ -160,14 +160,14 @@ public class AppointmentRepositoryTest extends AbstractIntegrationTest {
     @Test
     @Sql("/test-data/appointment/appointment.sql")
     public void shouldBeAbleToFindAppointments_forOneMonthTimeRange() {
-        String doctorId = "f23e4567-e89b-12d3-a456-426614174000";
+        String doctorId = "a23e4567-a89b-12d3-a456-42661417400a";
         LocalDate startDate = LocalDate.of(2021, 11, 1);
         LocalDate endDate = LocalDate.of(2021, 12, 17);
         List<Appointment> expectedAppointments = List.of(
                 Appointment.builder()
                         .id("aa3e4567-e89b-12d3-b457-5267141750aa")
-                        .doctor(entityManager.find(Doctor.class, "f23e4567-e89b-12d3-a456-426614174000"))
-                        .patient(entityManager.find(Patient.class, "f44e4567-ef9c-12d3-a45b-52661417400a"))
+                        .doctor(entityManager.find(Doctor.class, "a23e4567-a89b-12d3-a456-42661417400a"))
+                        .patient(entityManager.find(Patient.class, "b23e4567-b89b-12d3-a456-42661417400"))
                         .appointmentDate(LocalDate.of(2021, 12, 12))
                         .startTime(LocalTime.of(17, 0))
                         .endTime(LocalTime.of(18, 0))
@@ -185,14 +185,14 @@ public class AppointmentRepositoryTest extends AbstractIntegrationTest {
     @Test
     @Sql("/test-data/appointment/appointment.sql")
     public void shouldBeAbleToFindAppointments_forOneWeekTimeRange() {
-        String doctorId = "f23e4567-e89b-12d3-a456-426614174000";
+        String doctorId = "a23e4567-a89b-12d3-a456-42661417400a";
         LocalDate startDate = LocalDate.of(2021, 12, 10);
         LocalDate endDate = LocalDate.of(2021, 12, 17);
         List<Appointment> expectedAppointments = List.of(
                 Appointment.builder()
                         .id("aa3e4567-e89b-12d3-b457-5267141750aa")
-                        .doctor(entityManager.find(Doctor.class, "f23e4567-e89b-12d3-a456-426614174000"))
-                        .patient(entityManager.find(Patient.class, "f44e4567-ef9c-12d3-a45b-52661417400a"))
+                        .doctor(entityManager.find(Doctor.class, "a23e4567-a89b-12d3-a456-42661417400a"))
+                        .patient(entityManager.find(Patient.class, "b23e4567-b89b-12d3-a456-42661417400"))
                         .appointmentDate(LocalDate.of(2021, 12, 12))
                         .startTime(LocalTime.of(17, 0))
                         .endTime(LocalTime.of(18, 0))
@@ -210,7 +210,7 @@ public class AppointmentRepositoryTest extends AbstractIntegrationTest {
     @Test
     @Sql("/test-data/appointment/appointment.sql")
     public void whenThereAreNoAppointmentsInTimeRange_shouldReturnEmptyList() {
-        String doctorId = "f23e4567-e89b-12d3-a456-426614174000";
+        String doctorId = "a23e4567-a89b-12d3-a456-42661417400a";
         LocalDate startDate = LocalDate.of(2021, 12, 10);
         LocalDate endDate = LocalDate.of(2021, 12, 11);
 

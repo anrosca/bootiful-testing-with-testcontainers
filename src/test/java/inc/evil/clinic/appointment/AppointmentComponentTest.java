@@ -30,7 +30,7 @@ public class AppointmentComponentTest extends AbstractWebIntegrationTest {
                         .operation("Выдача каппы")
                         .details("New patient")
                         .doctor(DoctorResponse.builder()
-                                .id("f23e4567-e89b-12d3-a456-426614174000")
+                                .id("a23e4567-a89b-12d3-a456-42661417400a")
                                 .firstName("Vasile")
                                 .lastName("Usaci")
                                 .email("vusaci@gmail.com")
@@ -38,7 +38,7 @@ public class AppointmentComponentTest extends AbstractWebIntegrationTest {
                                 .telephoneNumber("37369666666")
                                 .build())
                         .patient(PatientResponse.builder()
-                                .id("f44e4567-ef9c-12d3-a45b-52661417400a")
+                                .id("b23e4567-b89b-12d3-a456-42661417400")
                                 .firstName("Jim")
                                 .lastName("Morrison")
                                 .birthDate("1994-12-13")
@@ -64,7 +64,7 @@ public class AppointmentComponentTest extends AbstractWebIntegrationTest {
                 .operation("Выдача каппы")
                 .details("New patient")
                 .doctor(DoctorResponse.builder()
-                        .id("f23e4567-e89b-12d3-a456-426614174000")
+                        .id("a23e4567-a89b-12d3-a456-42661417400a")
                         .firstName("Vasile")
                         .lastName("Usaci")
                         .email("vusaci@gmail.com")
@@ -72,7 +72,7 @@ public class AppointmentComponentTest extends AbstractWebIntegrationTest {
                         .telephoneNumber("37369666666")
                         .build())
                 .patient(PatientResponse.builder()
-                        .id("f44e4567-ef9c-12d3-a45b-52661417400a")
+                        .id("b23e4567-b89b-12d3-a456-42661417400")
                         .firstName("Jim")
                         .lastName("Morrison")
                         .birthDate("1994-12-13")
@@ -89,11 +89,12 @@ public class AppointmentComponentTest extends AbstractWebIntegrationTest {
     }
 
     @Test
+//    @Sql("/test-data/appointment/appointment.sql")
     public void shouldBeAbleToCreateAppointmentsWithExistingPatient() {
         String payload = """
                 {
-                   "doctorId": "22297b89-222a-4daa-222f-5995fd44da3e",
-                   "patientId": "123e4567-e89b-12d3-a456-426614174000",
+                   "doctorId": "a23e4567-a89b-12d3-a456-42661417400a",
+                   "patientId": "b23e4567-b89b-12d3-a456-42661417400",
                    "startDate": "2021-12-12T09:45",
                    "existingPatient": "true",
                    "endDate": "2021-12-12T10:45",
@@ -118,8 +119,8 @@ public class AppointmentComponentTest extends AbstractWebIntegrationTest {
     public void whenNewAppointmentConflictsWithAnExistingOne_shouldReturnErrorResponse() {
         String payload = """
                 {
-                   "doctorId": "f23e4567-e89b-12d3-a456-426614174000",
-                   "patientId": "f44e4567-ef9c-12d3-a45b-52661417400a",
+                   "doctorId": "a23e4567-a89b-12d3-a456-42661417400a",
+                   "patientId": "b23e4567-b89b-12d3-a456-42661417400",
                    "existingPatient": "true",
                    "startDate": "2021-12-12T17:00",
                    "endDate": "2021-12-12T17:30",
@@ -190,7 +191,7 @@ public class AppointmentComponentTest extends AbstractWebIntegrationTest {
                         .operation("Выдача каппы")
                         .details("New patient")
                         .doctor(DoctorResponse.builder()
-                                .id("f23e4567-e89b-12d3-a456-426614174000")
+                                .id("a23e4567-a89b-12d3-a456-42661417400a")
                                 .firstName("Vasile")
                                 .lastName("Usaci")
                                 .email("vusaci@gmail.com")
@@ -199,7 +200,7 @@ public class AppointmentComponentTest extends AbstractWebIntegrationTest {
                                 .telephoneNumber("37369666666")
                                 .build())
                         .patient(PatientResponse.builder()
-                                .id("f44e4567-ef9c-12d3-a45b-52661417400a")
+                                .id("b23e4567-b89b-12d3-a456-42661417400")
                                 .firstName("Jim")
                                 .lastName("Morrison")
                                 .birthDate("1994-12-13")
@@ -207,7 +208,7 @@ public class AppointmentComponentTest extends AbstractWebIntegrationTest {
                                 .build())
                         .build()
         };
-        RequestEntity<Void> request = makeRequestFor("/api/v1/appointments?doctorId=f23e4567-e89b-12d3-a456-426614174000", HttpMethod.GET);
+        RequestEntity<Void> request = makeRequestFor("/api/v1/appointments?doctorId=a23e4567-a89b-12d3-a456-42661417400a", HttpMethod.GET);
 
         ResponseEntity<AppointmentResponse[]> response = restTemplate.exchange(request, AppointmentResponse[].class);
 

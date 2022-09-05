@@ -39,7 +39,7 @@ public class AppointmentControllerTest extends AbstractRestTest {
                                 .lastName("Usaci")
                                 .build())
                         .patient(PatientResponse.builder()
-                                .id("f44e4567-ef9c-12d3-a45b-52661417400a")
+                                .id("b23e4567-b89b-12d3-a456-42661417400")
                                 .phoneNumber("+37352014789")
                                 .birthDate("1994-12-12")
                                 .firstName("Nadya")
