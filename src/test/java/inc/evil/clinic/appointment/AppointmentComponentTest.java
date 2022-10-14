@@ -89,7 +89,7 @@ public class AppointmentComponentTest extends AbstractWebIntegrationTest {
     }
 
     @Test
-//    @Sql("/test-data/appointment/appointment.sql")
+    @Sql("/test-data/appointment/appointment.sql")
     public void shouldBeAbleToCreateAppointmentsWithExistingPatient() {
         String payload = """
                 {

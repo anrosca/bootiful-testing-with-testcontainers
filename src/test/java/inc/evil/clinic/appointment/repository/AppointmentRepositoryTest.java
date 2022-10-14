@@ -3,13 +3,16 @@ package inc.evil.clinic.appointment.repository;
 
 import inc.evil.clinic.appointment.model.Appointment;
 import inc.evil.clinic.common.AbstractIntegrationTest;
+import inc.evil.clinic.common.WithPostgresqlExtension;
 import inc.evil.clinic.doctor.model.Doctor;
 import inc.evil.clinic.patient.model.Patient;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.jdbc.Sql;
 
 import java.time.LocalDate;
@@ -19,9 +22,10 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DataJpaTest
+@DataJpaTest()
+//@TestExecutionListeners(listeners = WithPostgresqlExtension.class, mergeMode = TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class AppointmentRepositoryTest extends AbstractIntegrationTest {
+public class AppointmentRepositoryTest {
     @Autowired
     private AppointmentRepository appointmentRepository;
 

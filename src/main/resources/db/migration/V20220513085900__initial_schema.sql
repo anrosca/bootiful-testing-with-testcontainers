@@ -48,6 +48,18 @@ create table shedlock
 );
 
 
+create table movies(
+        id  varchar(100) primary key,
+        name  varchar(100)
+);
+
+create table actors(
+   first_name  varchar(100),
+   last_name  varchar(100),
+   primary key (first_name, last_name)
+);
+
+
 create index doctor_id_fk_index on appointments (doctor_id);
 create index start_time_index on appointments(start_time);
 create index end_time_index on appointments(end_time);
