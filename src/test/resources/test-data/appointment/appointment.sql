@@ -1,7 +1,7 @@
---Clean up
-delete from appointments;
-delete from patients;
-delete from doctors;
+-- --Clean up
+-- delete from appointments;
+-- delete from patients;
+-- delete from doctors;
 
 insert into doctors (id, email_address, first_name, last_name, specialty, telephone_number)
 values ('cafe11c0-7d59-45be-85cc-0dc146532e78',  'sponge-bob@gmail.com', 'Sponge', 'Bob', 'ORTHODONTIST', '37369666667');

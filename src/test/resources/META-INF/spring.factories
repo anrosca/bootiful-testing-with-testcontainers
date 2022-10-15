@@ -1,2 +1,2 @@
-org.springframework.context.ApplicationContextInitializer=inc.evil.clinic.common.WithPostgresqlExtension
+#org.springframework.context.ApplicationContextInitializer=inc.evil.clinic.Initializer
 
