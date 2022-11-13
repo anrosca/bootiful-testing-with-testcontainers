@@ -8,8 +8,8 @@
         <version>2.7.4</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>inc.evil.spring.tx.management</groupId>
-    <artifactId>spring-declarative-tx-management</artifactId>
+    <groupId>inc.evil.med.assist</groupId>
+    <artifactId>med-assist</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>bootiful-testing-with-testcontainers</name>
     <description>bootiful-testing-with-testcontainers</description>
