@@ -6,9 +6,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @Slf4j
 @SpringBootApplication
-public class SpringDeclarativeTxManagementApplication {
+public class DoctorAppointmentApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(SpringDeclarativeTxManagementApplication.class, args);
+        SpringApplication.run(DoctorAppointmentApplication.class, args);
     }
 }

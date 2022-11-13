@@ -3,7 +3,7 @@ version: '3'
 services:
   spring-declarative-tx-db:
     image: postgres:13.3
-    container_name: spring-declarative-tx-db
+    container_name: bootiful-db
     command:
       - "postgres"
       - "-c"
@@ -13,3 +13,13 @@ services:
       POSTGRES_DB: spring-declarative-tx-db
     ports:
       - "5432:5432"
+  localstack:
+    container_name: "bootiful-localstack"
+    image: localstack/localstack:0.12.2
+    network_mode: bridge
+    ports:
+      - "4566:4566"
+    environment:
+      - DEBUG=1
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      - SERVICES=s3
