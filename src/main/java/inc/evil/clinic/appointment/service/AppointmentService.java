@@ -1,11 +1,13 @@
 package inc.evil.clinic.appointment.service;
 
 import inc.evil.clinic.appointment.model.Appointment;
+import inc.evil.clinic.appointment.model.AppointmentCreatedEvent;
 import inc.evil.clinic.appointment.repository.AppointmentRepository;
 import inc.evil.clinic.common.exception.NotFoundException;
 import inc.evil.clinic.doctor.model.Doctor;
 import inc.evil.clinic.doctor.repository.DoctorRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,10 +21,12 @@ import java.util.Optional;
 public class AppointmentService {
     private final AppointmentRepository appointmentRepository;
     private final DoctorRepository doctorRepository;
+    private final ApplicationEventPublisher eventPublisher;
 
-    public AppointmentService(AppointmentRepository appointmentRepository, DoctorRepository doctorRepository) {
+    public AppointmentService(AppointmentRepository appointmentRepository, DoctorRepository doctorRepository, ApplicationEventPublisher eventPublisher) {
         this.appointmentRepository = appointmentRepository;
         this.doctorRepository = doctorRepository;
+        this.eventPublisher = eventPublisher;
     }
 
     @Transactional(readOnly = true)
@@ -46,7 +50,9 @@ public class AppointmentService {
     @Transactional
     public synchronized Appointment create(Appointment appointmentToCreate) {
         checkForConflicts(appointmentToCreate);
-        return appointmentRepository.save(appointmentToCreate);
+        Appointment createdAppointment = appointmentRepository.save(appointmentToCreate);
+        eventPublisher.publishEvent(AppointmentCreatedEvent.from(createdAppointment));
+        return createdAppointment;
     }
 
     private void checkForConflicts(Appointment appointmentToCreate) {
