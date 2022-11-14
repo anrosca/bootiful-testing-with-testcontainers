@@ -42,6 +42,6 @@ public class AppointmentController {
                 .build()
                 .toUri();
         return ResponseEntity.created(location)
-                .build();
+                .body(createdAppointment);
     }
 }
