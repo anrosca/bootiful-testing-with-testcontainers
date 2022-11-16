@@ -1,5 +1,6 @@
 package inc.evil.clinic.appointment;
 
+import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.jayway.jsonpath.JsonPath;
 import inc.evil.clinic.appointment.web.AppointmentResponse;
 import inc.evil.clinic.common.AbstractWebIntegrationTest;
@@ -7,18 +8,51 @@ import inc.evil.clinic.common.component.ComponentTest;
 import inc.evil.clinic.doctor.model.Specialty;
 import inc.evil.clinic.doctor.web.DoctorResponse;
 import inc.evil.clinic.patient.model.PatientResponse;
+import io.awspring.cloud.s3.S3Template;
 import org.assertj.core.api.AssertionsForClassTypes;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.jdbc.Sql;
 
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.awaitility.Awaitility.given;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ComponentTest
 public class AppointmentComponentTest extends AbstractWebIntegrationTest {
+    @Test
+    @Sql("/test-data/appointment/appointment.sql")
+    public void shouldBeAbleToCreateAppointmentsWithExistingPatient() {
+        String payload = """
+                {
+                   "doctorId": "a23e4567-a89b-12d3-a456-42661417400a",
+                   "patientId": "b23e4567-b89b-12d3-a456-42661417400",
+                   "startDate": "2021-12-12T09:45",
+                   "existingPatient": "true",
+                   "endDate": "2021-12-12T10:45",
+                   "operation": "Inspection",
+                   "details": "Patient will make an appointment",
+                   "color": {
+                        "primary": "#ff1f1f",
+                        "secondary": "#D1E8FF"
+                   }
+                 }
+                """;
+        RequestEntity<String> request = makeRequestFor("/api/v1/appointments/", HttpMethod.POST, payload);
+
+        ResponseEntity<String> response = restTemplate.exchange(request, String.class);
+
+        assertThat(response.getStatusCode().value()).isEqualTo(HttpStatus.CREATED.value());
+        assertThat(response.getHeaders().getLocation()).isNotNull();
+    }
+
     @Test
     @Sql("/test-data/appointment/appointment.sql")
     public void shouldBeAbleToFindAllAppointments() {
@@ -88,31 +122,37 @@ public class AppointmentComponentTest extends AbstractWebIntegrationTest {
         assertThat(response.getBody()).isEqualTo(expectedAppointment);
     }
 
-    @Test
-    @Sql("/test-data/appointment/appointment.sql")
-    public void shouldBeAbleToCreateAppointmentsWithExistingPatient() {
-        String payload = """
-                {
-                   "doctorId": "a23e4567-a89b-12d3-a456-42661417400a",
-                   "patientId": "b23e4567-b89b-12d3-a456-42661417400",
-                   "startDate": "2021-12-12T09:45",
-                   "existingPatient": "true",
-                   "endDate": "2021-12-12T10:45",
-                   "operation": "Inspection",
-                   "details": "Patient will make an appointment",
-                   "color": {
-                        "primary": "#ff1f1f",
-                        "secondary": "#D1E8FF"
-                   }
-                 }
-                """;
-        RequestEntity<String> request = makeRequestFor("/api/v1/appointments/", HttpMethod.POST, payload);
 
-        ResponseEntity<String> response = restTemplate.exchange(request, String.class);
-
-        assertThat(response.getStatusCode().value()).isEqualTo(HttpStatus.CREATED.value());
-        assertThat(response.getHeaders().getLocation()).isNotNull();
-    }
+//    @Test
+//    @Sql("/test-data/appointment/appointment.sql")
+//    public void whenCreatingAppointments_shouldPublishThemToS3(@Autowired S3Template s3Template, @Value("${appointments.bucket-name}") String appointmentEventBucket) {
+//        String payload = """
+//                {
+//                   "doctorId": "a23e4567-a89b-12d3-a456-42661417400a",
+//                   "patientId": "b23e4567-b89b-12d3-a456-42661417400",
+//                   "startDate": "2021-12-12T09:45",
+//                   "existingPatient": "true",
+//                   "endDate": "2021-12-12T10:45",
+//                   "operation": "Inspection",
+//                   "details": "Patient will make an appointment",
+//                   "color": {
+//                        "primary": "#ff1f1f",
+//                        "secondary": "#D1E8FF"
+//                   }
+//                 }
+//                """;
+//        RequestEntity<String> request = makeRequestFor("/api/v1/appointments/", HttpMethod.POST, payload);
+//
+//        ResponseEntity<AppointmentResponse> response = restTemplate.exchange(request, AppointmentResponse.class);
+//
+//        assertThat(response.getStatusCode().value()).isEqualTo(HttpStatus.CREATED.value());
+//        assertThat(response.getHeaders().getLocation()).isNotNull();
+//        given()
+//                .ignoreException(AmazonS3Exception.class)
+//                .await()
+//                .atMost(5, SECONDS)
+//                .untilAsserted(() -> assertTrue(s3Template.download(appointmentEventBucket, response.getBody().getId()).exists()));
+//    }
 
     @Test
     @Sql("/test-data/appointment/appointment.sql")
